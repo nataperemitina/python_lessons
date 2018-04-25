@@ -1,0 +1,39 @@
+Базы данных
+Реляционные:
+MySQL (MariaDB)
+PostgreSQL
+MS SQL Server
+Oracle
+
+Это все СУБД (т.е. система управления БД - может быть несколько БД).
+Пользователи, права доступа помимо БД хранятся в них.
+
+БД в одном файле: SQLite
+
+Все эти БД поддерживают язык SQL - структурный язык запросов.
+
+DB API - программный интерфейс к БД
+
+Реляционные БД
+Всегда есть таблицы, которые состоят из колонок. Данные хранятся в строках таблиц.
+Таблица есть сущность.
+
+user
+id  username  password  roleid - атрибуты сущности
+1     root       toor    admin     
+2     stud       itmo    user
+
+1-n
+
+role
+name   title
+admin  Админ
+user   Пользователь  
+
+id, name - Primary Key (первичный ключ должен быть у любой сущности (он уникален))
+roleid - Foreign Key 
+
+SQL делится на 2 подмножества - DDL (data definition language) и DML (data manipulation language)
+DDL - create table
+DML - insert, update delete, select
+

@@ -1,0 +1,78 @@
+import sqlite3 
+
+# 1. Подключение к БД
+conn = sqlite3.connect('db.sqlite')
+
+# 2. Создание объекта курсора
+cursor = conn.cursor()
+
+# 3. Выполнить SQL-запрос к БД
+#NOT NULL - поле обязательно должно быть заполнено
+#DEFAULT - значение по-умолчанию, которое подставится лишь бы не был NULL
+sql = '''
+    CREATE TABLE IF NOT EXISTS shortener (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        original_url TEXT NOT NULL, 
+        short_url TEXT NOT NULL DEFAULT '',
+        created DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    )
+'''
+
+cursor.execute(sql)
+
+# 3.1 Если запрос на изменение данных или структуры БД,
+#     то фиксируем с помощью commit
+conn.commit()
+
+# колонки перечисляются через ,
+sql = '''
+    INSERT INTO shortener (
+        original_url
+    ) VALUES (
+        ?
+    ) 
+'''
+
+cursor.execute(sql, ('http://profi.ifmo.ru',))
+conn.commit()
+
+sql = '''
+    SELECT 
+        id, original_url, short_url, created
+    FROM
+        shortener
+'''
+
+cursor.execute(sql)
+
+# 3.2 Если запрос на выборку данных (SELECT), то:
+
+result = cursor.fetchall()
+print(result)
+
+# 4. Закрываем соединение с БД
+conn.close()
+
+
+# Контекстный менеджер!!!
+# не нужно вызывать commit, он будет вызван по выходу из контекстного менеджера
+# так же будет обязательно закрыто соединение (даже если было исключение)
+# Контекстные менеджеры могут быть вложенными
+# Так же выполняется rollback транзакций - бд остается целостной
+"""
+try:
+     ....
+
+finally:
+     ....
+"""
+
+with sqlite3.connect('db.sqlite') as conn:
+    sql = 'SELECT * FROM shortener'
+    cursor = conn.execute()
+    print(cursor.fetchall())
+
+
+
+
+

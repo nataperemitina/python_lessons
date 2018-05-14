@@ -83,7 +83,7 @@ if a < b:
     print('a < b')
 elif a == b:
     print('a = b')
-elif a is b
+elif a is b:
     pass # пустой блок кода
 else:
     print('a > b')
